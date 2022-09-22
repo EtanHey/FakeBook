@@ -10,7 +10,7 @@ const port = process.env.PORT || 4001
 
 app.use(express.json());
 app.use(cookieParser())
-app.use(express.static("public/build"));
+app.use(express.static("client/build"));
 
 mongoose
   .connect(
