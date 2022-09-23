@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.df772ba8.css",
-    "main.js": "./static/js/main.d1eaf68c.js",
+    "main.js": "./static/js/main.534d202a.js",
     "static/js/787.243d4a8a.chunk.js": "./static/js/787.243d4a8a.chunk.js",
     "static/media/Facebook-Logoword.svg": "./static/media/Facebook-Logoword.e5fbefe09c97955fcb03cdce443fca0e.svg",
     "static/media/threeDots.svg": "./static/media/threeDots.a3511ff67fcb81c99b29949813497942.svg",
@@ -9,11 +9,11 @@
     "index.html": "./index.html",
     "static/media/adchoices.svg": "./static/media/adchoices.d580a024a6fcb8804ac88ccb86da36aa.svg",
     "main.df772ba8.css.map": "./static/css/main.df772ba8.css.map",
-    "main.d1eaf68c.js.map": "./static/js/main.d1eaf68c.js.map",
+    "main.534d202a.js.map": "./static/js/main.534d202a.js.map",
     "787.243d4a8a.chunk.js.map": "./static/js/787.243d4a8a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.df772ba8.css",
-    "static/js/main.d1eaf68c.js"
+    "static/js/main.534d202a.js"
   ]
 }

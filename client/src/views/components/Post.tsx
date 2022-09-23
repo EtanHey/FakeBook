@@ -67,13 +67,9 @@ function Post(props: PostsProps) {
 
   function handleOpenPostOwnersProfile(ev: any) {
     // navigate(`/HomePage/Profile/${userId}`);
-    console.log(ev.target);
     
   }
 
-  useEffect(() => {
-    console.log("posts loaded");
-  }, []);
   function handleDeletePost(ev: any) {
     console.log(post, "post");
   }

@@ -64,7 +64,6 @@ function LoginForm(props: LoginFormProps) {
         username,
         password,
       };
-      console.log(userData);
       
       const { data } = await axios.post("/api/users/login-user", userData);
 

@@ -40,13 +40,11 @@ const getOthersPostsList = (req, res) => __awaiter(void 0, void 0, void 0, funct
     try {
         const data = req.body;
         const { profileId } = data;
-        console.log(profileId);
         const rest = req.cookies["currentUserInfo"];
         const userInfo = jwt_simple_1.default.decode(rest, secret);
         const userId = userInfo.loginData.result._id;
         if (userId) {
             let otherUsersPostsList = yield postModel_1.default.find({ ownerId: profileId });
-            console.log(otherUsersPostsList);
             res.send(otherUsersPostsList);
             // const decoded = jwt.decode(userId, secret)
             // const {userId, role} = decoded;
@@ -64,7 +62,6 @@ const createNewPost = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     try {
         const rest = req.cookies["currentUserInfo"];
         const cookies = jwt_simple_1.default.decode(rest, secret);
-        console.log(cookies);
         const newPostInfo = req.body;
         const newPostOwnerInfo = jwt_simple_1.default.decode(req.cookies["currentUserInfo"], secret)
             .loginData.result;

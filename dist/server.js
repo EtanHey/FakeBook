@@ -12,7 +12,6 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 4001;
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
-app.use(express_1.default.static("public/build"));
 mongoose_1.default
     .connect(`${MONGODB_URI}`)
     .then(() => {
@@ -26,6 +25,8 @@ const userRoutes_1 = __importDefault(require("./server/routes/userRoutes"));
 app.use("/api/users", userRoutes_1.default);
 const postsRoutes_1 = __importDefault(require("./server/routes/postsRoutes"));
 app.use("/api/posts", postsRoutes_1.default);
+app.use(express_1.default.static("./client/build"));
+app.use("/*", express_1.default.static("./client/build"));
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
 });

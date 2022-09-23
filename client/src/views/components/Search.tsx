@@ -48,8 +48,6 @@ function Search(props: SearchProps) {
   function handleCloseSearchDrawer(ev: any) {
     const button = ev.currentTarget.firstChild;
     const icon = ev.currentTarget;
-    console.log(button);
-    console.log(icon);
 
     setSearchToggle(!SearchToggle);
 

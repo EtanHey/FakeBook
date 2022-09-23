@@ -78,7 +78,6 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (emailLookup) {
             let email = emailLookup.email;
             const verified = yield userModel_1.default.findOne({ email: email, password: password });
-            console.log(verified, 'verified');
             if (!verified) {
                 let loginData = {
                     message: `Welcome back ${emailLookup.username}, thats not the password`,
