@@ -94,3 +94,20 @@ export const searchPosts = async (req, res) => {
     res.send({ error: error.message });
   }
 };
+
+export const deletePost = async(req,res)=>{
+try {
+
+  
+  const postId = req.body._id;
+  const {deletedCount} = await Post.deleteOne({_id:postId})
+if(deletedCount === 1) {
+  res.send({ok:true})
+  return
+}
+} catch (error) {
+  console.log(error);
+  res.send({error:error.message})
+  
+}
+}
