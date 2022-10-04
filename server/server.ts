@@ -26,10 +26,10 @@ mongoose
   });
   
   
-  import userRoutes from "./server/routes/userRoutes";
+  import userRoutes from "./routes/userRoutes";
   app.use("/api/users", userRoutes);
   
-  import postRoutes from "./server/routes/postsRoutes";
+  import postRoutes from "./routes/postsRoutes";
   app.use("/api/posts", postRoutes);
   
   app.use(express.static("./client/build"));
