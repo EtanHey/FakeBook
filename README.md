@@ -1,11 +1,16 @@
 ## add a .env file including the following parameters:
 
-JWT_SECRET={your own string}
+> JWT_SECRET={your own string}
 
-ENV = production
+> PORT=4001
 
-PORT=4001
+> MONGODB_URI={your mongoDB connection link}
 
-MONGODB_URI={your mongoDB connection link}
+## open terminal for server & client directories:
 
-# https://etansfakebook.herokuapp.com/
+1. `npm i` for both.
+2. `nodemon` for **server** & `npm start` for **client**.
+
+## running version:
+
+**https://etansfakebook.herokuapp.com**
