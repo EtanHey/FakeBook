@@ -11,7 +11,7 @@
 1. `npm i` for both.
 2. `nodemon` for **server** & `npm start` for **client**.
 
-## running versions:
+## running version:
 
 **https://fine-lime-spider-gear.cyclic.app/**
 
