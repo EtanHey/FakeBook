@@ -11,7 +11,7 @@
 1. `npm i` for both.
 2. `nodemon` for **server** & `npm start` for **client**.
 
-## running version:
+## running versions:
 
 **https://etansfakebook.herokuapp.com**
 
