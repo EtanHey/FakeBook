@@ -1,18 +1,12 @@
 //basic workflow imports:
-import { useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import {useEffect} from 'react';
+import axios from 'axios';
+import {useNavigate} from 'react-router-dom';
 //styling imports:
 //mui ->
-import {
-  Button,
-  ButtonProps,
-  TextField,
-  FormGroup,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { Cookies } from "react-cookie";
+import {Button, ButtonProps, TextField, FormGroup, Typography} from '@mui/material';
+import {styled} from '@mui/material/styles';
+import {Cookies} from 'react-cookie';
 
 //receiving props:
 interface LoginFormProps {
@@ -28,67 +22,54 @@ interface LoginFormProps {
   loggedIn: boolean;
 }
 
-const loginButtonStyle = styled(Button)<ButtonProps>(({ theme }) => ({}));
+const loginButtonStyle = styled(Button)<ButtonProps>(({theme}) => ({}));
 
 function LoginForm(props: LoginFormProps) {
-  const {
-    theme,
-    lightTheme,
-    darkTheme,
-    loginWarning,
-    setLoginWarning,
-    setUsersPersonalInfo,
-    setLoggedIn,
-    setUserId,
-    loggedIn,
-    userId,
-  } = props;
+  const {theme, lightTheme, darkTheme, loginWarning, setLoginWarning, setUsersPersonalInfo, setLoggedIn, setUserId, loggedIn, userId} = props;
   const navigate = useNavigate();
 
   if (theme) {
-    var { primary, secondary, background, divider } = darkTheme.palette;
+    var {primary, secondary, background, divider} = darkTheme.palette;
   } else {
-    var { primary, secondary, background, divider } = lightTheme.palette;
+    var {primary, secondary, background, divider} = lightTheme.palette;
   }
-async function checkLogin(){
-try {
-	const {data} = await axios.get('/api/users/is-user-logged-in')
-  const {currentUser, ok} = data;
-  if(ok) {    
-    setUsersPersonalInfo(currentUser);
+  async function checkLogin() {
+    try {
+      const {data} = await axios.get('/api/users/is-user-logged-in');
+      const {currentUser, ok} = data;
+      if (ok) {
+        setUsersPersonalInfo(currentUser);
         setLoggedIn(true);
         setUserId(currentUser._id);
-        
+      } else {
+        const {host} = data;
+        console.log(host);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
-
-} catch (error) {
-	console.log(error)
-}
-}
   async function handleLogin(ev: any) {
     ev.preventDefault();
     try {
-      let { username, password } = ev.target;
+      let {username, password} = ev.target;
       username = username.value;
       password = password.value;
-      if (!username || !password)
-        throw new Error(
-          `no username or password provided at handleLogin -client side`
-        );
+      if (!username || !password) throw new Error(`no username or password provided at handleLogin -client side`);
       const userData = {
         username,
-        password,
+        password
       };
-      
-      const { data } = await axios.post("/api/users/login-user", userData);
 
-      const { loginData } = data;
+      const {data} = await axios.post('/api/users/login-user', userData);
+
+      const {loginData} = data;
 
       if (!loginData.result) {
         const message = loginData.message;
         setLoginWarning(`${message}`);
         setTimeout(() => {
-          setLoginWarning("");
+          setLoginWarning('');
         }, 5000);
       } else {
         const currentUsersPersonalInfo = loginData.verifiedUserPersonalInfo;
@@ -103,44 +84,45 @@ try {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate("/HomePage");
+      navigate('/HomePage');
     }
-    return ()=>{checkLogin()}
+    return () => {
+      checkLogin();
+    };
   }, [userId]);
 
   return (
-    <form className="login-form" onSubmit={(ev) => handleLogin(ev)}>
+    <form className='login-form' onSubmit={(ev) => handleLogin(ev)}>
       {/* <FormControl> */}
-      <FormGroup sx={{ gap: "12px" }}>
+      <FormGroup sx={{gap: '12px'}}>
         <TextField
           // margin="dense"
-          name="username"
-          id="username"
-          placeholder="Email address"
+          name='username'
+          id='username'
+          placeholder='Email address'
         />
         <TextField
           // margin="dense"
-          type="password"
-          name="password"
-          id="password"
-          placeholder="Password"
+          type='password'
+          name='password'
+          id='password'
+          placeholder='Password'
         />
-        <Button
-          type="submit"
-          color={"primary"}
-          style={{ fontSize: "20px", lineHeight: "42px" }}
-          variant="contained"
-        >
-          <Typography color={primary.contrastText} style={{}} variant="h6">Log In</Typography>
+        <Button type='submit' color={'primary'} style={{fontSize: '20px', lineHeight: '42px'}} variant='contained'>
+          <Typography color={primary.contrastText} style={{}} variant='h6'>
+            Log In
+          </Typography>
         </Button>
         <a
-          href="/"
+          href='/'
           // style={{ color: "#42b72a" }}
         >
           Forgotten password?
         </a>
         {loginWarning ? (
-          <Typography variant="h6" fontSize="-10px">{loginWarning}</Typography>
+          <Typography variant='h6' fontSize='-10px'>
+            {loginWarning}
+          </Typography>
         ) : null}
       </FormGroup>
       {/* </FormControl> */}

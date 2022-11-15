@@ -1,22 +1,22 @@
-import User from "../model/userModel";
-import jwt from "jwt-simple";
+import User from '../model/userModel';
+import jwt from 'jwt-simple';
 const secret = process.env.JWT_SECRET;
+const os = require('os');
 
 export const addUser = async (req, res) => {
   try {
-    let { firstName, lastName, email, password, gender, birthDate } = req.body;
-    if (!firstName || !lastName)
-      throw new Error("something missing on addUser - server side");
+    let {firstName, lastName, email, password, gender, birthDate} = req.body;
+    if (!firstName || !lastName) throw new Error('something missing on addUser - server side');
 
-    const anEmail = await User.findOne({ email: email }).collation({
-      locale: "en_US",
-      strength: 1,
+    const anEmail = await User.findOne({email: email}).collation({
+      locale: 'en_US',
+      strength: 1
     });
     if (anEmail) {
       let registerData = {
-        message: `${anEmail.email} is already registered under ${anEmail.username}`,
+        message: `${anEmail.email} is already registered under ${anEmail.username}`
       };
-      res.send({ registerData });
+      res.send({registerData});
       return;
     }
 
@@ -29,14 +29,14 @@ export const addUser = async (req, res) => {
         password,
 
         gender,
-        birthDate,
+        birthDate
       });
       const result = await newUser.save();
       let registerData = {
         result: result,
-        message: `${email} is now registered, you can proceed to login`,
+        message: `${email} is now registered, you can proceed to login`
       };
-      res.send({ registerData });
+      res.send({registerData});
     }
   } catch (error) {
     console.log(error);
@@ -46,7 +46,7 @@ export const addUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     let userData = req.body;
-    const { username, password } = userData;
+    const {username, password} = userData;
     // what should i do so the user can log in with either their username or email?
     // if (username.includes("@")) {
     //   let email = username;
@@ -56,25 +56,25 @@ export const loginUser = async (req, res) => {
 
     // }else{
 
-    const emailLookup = await User.findOne({ email: username }).collation({
-      locale: "en_US",
-      strength: 2,
+    const emailLookup = await User.findOne({email: username}).collation({
+      locale: 'en_US',
+      strength: 2
     });
     if (!emailLookup) {
       let loginData = {
-        message: `found no user in emailLookup, loginUser -server side (userCont)`,
+        message: `found no user in emailLookup, loginUser -server side (userCont)`
       };
-      res.send({ loginData });
+      res.send({loginData});
     }
     if (emailLookup) {
       let email = emailLookup.email;
-      const verified = await User.findOne({ email: email, password: password });
-      
+      const verified = await User.findOne({email: email, password: password});
+
       if (!verified) {
         let loginData = {
-          message: `Welcome back ${emailLookup.username}, thats not the password`,
+          message: `Welcome back ${emailLookup.username}, thats not the password`
         };
-        res.send({ loginData });
+        res.send({loginData});
       }
       if (verified) {
         //FIXME can add different info types for different needs.
@@ -82,22 +82,21 @@ export const loginUser = async (req, res) => {
           firstName: verified.firstName,
           lastName: verified.lastName,
           id: verified._id,
-          ok: true,
+          ok: true
         };
-        
+
         const result = verified;
         let loginData = {
           result: result,
           verifiedUserPersonalInfo: verifiedUserPersonalInfo,
-          message:
-            "welcome back, get out of this modal and wander around your recent posts",
+          message: 'welcome back, get out of this modal and wander around your recent posts'
         };
 
-        const payload = { loginData };
+        const payload = {loginData};
         const encryptedInfo = jwt.encode(payload, secret);
-        res.cookie("currentUserInfo", encryptedInfo, {});
-        
-        res.send({ loginData });
+        res.cookie('currentUserInfo', encryptedInfo, {});
+
+        res.send({loginData});
         return;
       }
     }
@@ -107,14 +106,14 @@ export const loginUser = async (req, res) => {
 };
 export const searchUsers = async (req, res) => {
   try {
-    const { searchTerm } = req.body;
+    const {searchTerm} = req.body;
     const userSearchList = await User.find(
-      { firstName: searchTerm } || { lastName: searchTerm } || {
-          email: searchTerm,
+      {firstName: searchTerm} || {lastName: searchTerm} || {
+          email: searchTerm
         }
     ).collation({
-      locale: "en_US",
-      strength: 1,
+      locale: 'en_US',
+      strength: 1
     });
     const userSearchListIds = userSearchList.map((user) => {
       return user;
@@ -122,28 +121,31 @@ export const searchUsers = async (req, res) => {
     res.send(userSearchListIds);
   } catch (error) {
     console.log(error.message);
-    res.send({ error: error.message });
+    res.send({error: error.message});
   }
 };
 
-export const isUserLoggedIn = async (req, res) =>{
+export const isUserLoggedIn = async (req, res) => {
   try {
+    const host = os.hostname();
     const cookie = req.cookies.currentUserInfo;
-    if(!cookie) {
-      res.send({ok:false})
+    if (!cookie) {
+      console.log('here');
+      console.log(host);
+
+      res.send({ok: false, host});
       return;
     }
-    const currentUserInfo = jwt.decode(cookie,secret).loginData.verifiedUserPersonalInfo
-    
-    const currentUser = await User.findById(currentUserInfo.id, {password: 0})
-    if(!currentUser) {
-      res.send({ok:false, message: 'no user was found using your cookies'})
+    const currentUserInfo = jwt.decode(cookie, secret).loginData.verifiedUserPersonalInfo;
+
+    const currentUser = await User.findById(currentUserInfo.id, {password: 0});
+    if (!currentUser) {
+      res.send({ok: false, message: 'no user was found using your cookies'});
       return;
     }
-    res.send({currentUser,ok:true})
-    
+    res.send({currentUser, ok: true});
   } catch (error) {
     console.log(error.message);
-    res.send({error:error.message})
+    res.send({error: error.message});
   }
-}
+};
