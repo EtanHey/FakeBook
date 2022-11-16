@@ -37,6 +37,7 @@ function LoginForm(props: LoginFormProps) {
     try {
       const {data} = await axios.get('/api/users/is-user-logged-in');
       const {currentUser, ok} = data;
+
       if (ok) {
         setUsersPersonalInfo(currentUser);
         setLoggedIn(true);

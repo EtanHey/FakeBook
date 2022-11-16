@@ -1,5 +1,5 @@
 import User from '../model/userModel';
-import jwt from 'jwt-simple';
+const jwt = require('jwt-simple');
 const secret = process.env.JWT_SECRET;
 
 export const addUser = async (req, res) => {
@@ -92,6 +92,7 @@ export const loginUser = async (req, res) => {
         };
 
         const payload = {loginData};
+
         const encryptedInfo = jwt.encode(payload, secret);
         res.cookie('currentUserInfo', encryptedInfo, {});
 

@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 exports.isUserLoggedIn = exports.searchUsers = exports.loginUser = exports.addUser = void 0;
 var userModel_1 = require("../model/userModel");
-var jwt_simple_1 = require("jwt-simple");
+var jwt = require('jwt-simple');
 var secret = process.env.JWT_SECRET;
 exports.addUser = function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var _a, firstName, lastName, email, password, gender, birthDate, anEmail, registerData, newUser, result, registerData, error_1;
@@ -134,7 +134,7 @@ exports.loginUser = function (req, res) { return __awaiter(void 0, void 0, void 
                         message: 'welcome back, get out of this modal and wander around your recent posts'
                     };
                     payload = { loginData: loginData };
-                    encryptedInfo = jwt_simple_1["default"].encode(payload, secret);
+                    encryptedInfo = jwt.encode(payload, secret);
                     res.cookie('currentUserInfo', encryptedInfo, {});
                     res.send({ loginData: loginData });
                     return [2 /*return*/];
@@ -189,7 +189,7 @@ exports.isUserLoggedIn = function (req, res) { return __awaiter(void 0, void 0, 
                     res.send({ ok: false });
                     return [2 /*return*/];
                 }
-                currentUserInfo = jwt_simple_1["default"].decode(cookie, secret).loginData.verifiedUserPersonalInfo;
+                currentUserInfo = jwt.decode(cookie, secret).loginData.verifiedUserPersonalInfo;
                 return [4 /*yield*/, userModel_1["default"].findById(currentUserInfo.id, { password: 0 })];
             case 1:
                 currentUser = _a.sent();
