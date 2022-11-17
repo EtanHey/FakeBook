@@ -2,7 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
-import path from 'path';
+
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
@@ -27,11 +27,11 @@ app.use('/api/users', userRoutes);
 import postRoutes from './server/routes/postsRoutes';
 app.use('/api/posts', postRoutes);
 
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/client/public/index.html'));
+// });
+import path from 'path';
 app.use(express.static(path.join(__dirname, 'client / build')));
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '/client/public/index.html'));
-});
-// import path from 'path';
 // app.use(express.static('./client/build'));
 // app.use('/*', express.static('./client/build'));
 

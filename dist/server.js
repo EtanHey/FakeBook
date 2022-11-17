@@ -7,7 +7,6 @@ require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
-const path_1 = __importDefault(require("path"));
 const MONGODB_URI = process.env.MONGODB_URI;
 const app = express_1.default();
 const port = process.env.PORT || 4001;
@@ -26,11 +25,11 @@ const userRoutes_1 = __importDefault(require("./server/routes/userRoutes"));
 app.use('/api/users', userRoutes_1.default);
 const postsRoutes_1 = __importDefault(require("./server/routes/postsRoutes"));
 app.use('/api/posts', postsRoutes_1.default);
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '/client/public/index.html'));
+// });
+const path_1 = __importDefault(require("path"));
 app.use(express_1.default.static(path_1.default.join(__dirname, 'client / build')));
-app.get('/*', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '/client/public/index.html'));
-});
-// import path from 'path';
 // app.use(express.static('./client/build'));
 // app.use('/*', express.static('./client/build'));
 app.listen(port, () => {
