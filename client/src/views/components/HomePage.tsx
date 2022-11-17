@@ -105,11 +105,11 @@ function HomePage(props: HomePageProps) {
   } else {
     var { primary, secondary, background } = darkTheme.palette;
   }
-  useEffect(() => {
-    if (!loggedIn) {
-      navigate("/");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!loggedIn) {
+  //     navigate("/");
+  //   }
+  // }, []);
 
   const appStyling = {
     background: background.default,
