@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
@@ -10,7 +11,9 @@ const port = process.env.PORT || 4001;
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'client / build')));
-
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/public/index.html'));
+});
 mongoose
   .connect(`${MONGODB_URI}`)
 
@@ -26,11 +29,11 @@ import userRoutes from './server/routes/userRoutes';
 app.use('/api/users', userRoutes);
 
 import postRoutes from './server/routes/postsRoutes';
-import path from 'path';
 app.use('/api/posts', postRoutes);
 
-app.use(express.static('./client/build'));
-app.use('/*', express.static('./client/build'));
+// import path from 'path';
+// app.use(express.static('./client/build'));
+// app.use('/*', express.static('./client/build'));
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);
