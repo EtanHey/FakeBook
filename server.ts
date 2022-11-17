@@ -10,17 +10,16 @@ const port = process.env.PORT || 4001;
 
 app.use(express.json());
 app.use(cookieParser());
-});
 mongoose
-.connect(`${MONGODB_URI}`)
+  .connect(`${MONGODB_URI}`)
 
-.then(() => {
-  console.log('connected to Mongoose');
-})
-.catch((err) => {
-  console.log('Failed to connect to Mongoose:');
-  console.log(err.message);
-});
+  .then(() => {
+    console.log('connected to Mongoose');
+  })
+  .catch((err) => {
+    console.log('Failed to connect to Mongoose:');
+    console.log(err.message);
+  });
 
 import userRoutes from './server/routes/userRoutes';
 app.use('/api/users', userRoutes);
@@ -31,6 +30,7 @@ app.use('/api/posts', postRoutes);
 app.use(express.static(path.join(__dirname, 'client / build')));
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '/client/public/index.html'));
+});
 // import path from 'path';
 // app.use(express.static('./client/build'));
 // app.use('/*', express.static('./client/build'));
