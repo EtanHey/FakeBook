@@ -81,12 +81,10 @@ function LoginForm(props: LoginFormProps) {
   }
 
   useEffect(() => {
+    checkLogin();
     if (loggedIn) {
       navigate('/HomePage');
     }
-    return () => {
-      checkLogin();
-    };
   }, [userId]);
 
   return (

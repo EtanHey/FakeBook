@@ -1,23 +1,20 @@
 //Personal workflow imports:
 
 // import 'dotenv/config'
-import { useState, useEffect, useTransition } from "react";
-import { useNavigate } from "react-router-dom";
-import { useCookies, Cookies } from "react-cookie";
-import { motion } from "framer-motion";
+import {useState, useEffect, useTransition} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useCookies, Cookies} from 'react-cookie';
+import {motion} from 'framer-motion';
 
 //styling imports:
 //mui ->
-import {
- 
-  CssBaseline,
-
-} from "@mui/material";
+import {CssBaseline} from '@mui/material';
 
 //local components imports:
-import Feed from "./Feed";
+import Feed from './Feed';
 
-import "../styles/global.scss";
+import '../styles/global.scss';
+import axios from 'axios';
 
 //receiving props:
 interface PostsProps {
@@ -80,55 +77,49 @@ interface HomePageProps {
 }
 
 function HomePage(props: HomePageProps) {
-  const {
-    setTheme,
-    theme,
-    lightTheme,
-    darkTheme,
-    registerWarning,
-    loginWarning,
-    loggedIn,
-    setLoginWarning,
-    setRegisterWarning,
-    setLoggedIn,
-    setUsersPersonalInfo,
-    setUserId,
-    userId,
-    usersPersonalInfo,
-    setPostsList,
-    postsList,
-  } = props;
+  const {setTheme, theme, lightTheme, darkTheme, registerWarning, loginWarning, loggedIn, setLoginWarning, setRegisterWarning, setLoggedIn, setUsersPersonalInfo, setUserId, userId, usersPersonalInfo, setPostsList, postsList} = props;
   const [hasLoaded, setHasLoaded] = useState();
+  const cookies = new Cookies();
   const navigate = useNavigate();
   if (theme) {
-    var { primary, secondary, background } = lightTheme.palette;
+    var {primary, secondary, background} = lightTheme.palette;
   } else {
-    var { primary, secondary, background } = darkTheme.palette;
+    var {primary, secondary, background} = darkTheme.palette;
   }
-  // useEffect(() => {
-  //   if (!loggedIn) {
-  //     navigate("/");
-  //   }
-  // }, []);
+  async function checkLogin() {
+    try {
+      const {data} = await axios.get('/api/users/is-user-logged-in');
+      const {currentUser, ok} = data;
+
+      if (ok) {
+        setUsersPersonalInfo(currentUser);
+        setLoggedIn(true);
+        setUserId(currentUser._id);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  useEffect(() => {
+    if (!loggedIn) {
+      checkLogin();
+      // was very junior when writing the whole project,
+      // thus didn't think about reload possibility where the user reloads
+      if (!loggedIn) {
+        navigate('/');
+      }
+    }
+  }, []);
 
   const appStyling = {
     background: background.default,
-    color: primary.contrastText,
+    color: primary.contrastText
   };
   return (
     <div>
-      {/* <Routes>
-        <Route path="/">
-        <LoginPage handleLogin={handleLogin} theme={theme} lightTheme={lightTheme} darkTheme={darkTheme} loginWarning={loginWarning}/>
-        </Route>
-      </Routes> */}
-      <motion.div
-        style={appStyling}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="wrapper"
-      >
+      <motion.div style={appStyling} initial={{opacity: 0}} animate={{opacity: 1}} transition={{duration: 0.8}} className='wrapper'>
         <CssBaseline />
         {/* <p>{theme ? "light" : "dark"}</p> */}
         {/* {usersPersonalInfo?<p>{firstName}</p>:null} */}
@@ -146,17 +137,8 @@ function HomePage(props: HomePageProps) {
             this is your feed:`
             : "‎"}
         </p> */}
-        <div className="wrapper_home">
-          <Feed
-            userId={userId}
-            loggedIn={loggedIn}
-            usersPersonalInfo={usersPersonalInfo}
-            setPostsList={setPostsList}
-            postsList={postsList}
-            theme={theme}
-            lightTheme={lightTheme}
-            darkTheme={darkTheme}
-          />
+        <div className='wrapper_home'>
+          <Feed userId={userId} loggedIn={loggedIn} usersPersonalInfo={usersPersonalInfo} setPostsList={setPostsList} postsList={postsList} theme={theme} lightTheme={lightTheme} darkTheme={darkTheme} />
         </div>
       </motion.div>
     </div>
