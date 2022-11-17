@@ -9,8 +9,10 @@ const port = process.env.PORT || 4001;
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname,'client / build'))); 
-
+app.use(express.static(path.join(__dirname, 'client / build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/public/index.html'));
+});
 mongoose
   .connect(`${MONGODB_URI}`)
 
