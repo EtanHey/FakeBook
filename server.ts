@@ -27,13 +27,9 @@ app.use('/api/users', userRoutes);
 import postRoutes from './server/routes/postsRoutes';
 app.use('/api/posts', postRoutes);
 
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/client/public/index.html'));
-// });
 import path from 'path';
-app.use(express.static(path.join(__dirname, 'client / build')));
-// app.use(express.static('./client/build'));
-// app.use('/*', express.static('./client/build'));
+app.use(express.static('./client/build'));
+app.use('/*', express.static('./client/build'));
 
 app.listen(port, () => {
   return console.log(`Express is listening at http://localhost:${port}`);

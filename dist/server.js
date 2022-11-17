@@ -25,13 +25,8 @@ const userRoutes_1 = __importDefault(require("./server/routes/userRoutes"));
 app.use('/api/users', userRoutes_1.default);
 const postsRoutes_1 = __importDefault(require("./server/routes/postsRoutes"));
 app.use('/api/posts', postsRoutes_1.default);
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/client/public/index.html'));
-// });
-const path_1 = __importDefault(require("path"));
-app.use(express_1.default.static(path_1.default.join(__dirname, 'client / build')));
-// app.use(express.static('./client/build'));
-// app.use('/*', express.static('./client/build'));
+app.use(express_1.default.static('./client/build'));
+app.use('/*', express_1.default.static('./client/build'));
 app.listen(port, () => {
     return console.log(`Express is listening at http://localhost:${port}`);
 });
