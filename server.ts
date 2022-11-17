@@ -9,6 +9,7 @@ const port = process.env.PORT || 4001;
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname,'client / build'))); 
 
 mongoose
   .connect(`${MONGODB_URI}`)
@@ -25,6 +26,7 @@ import userRoutes from './server/routes/userRoutes';
 app.use('/api/users', userRoutes);
 
 import postRoutes from './server/routes/postsRoutes';
+import path from 'path';
 app.use('/api/posts', postRoutes);
 
 app.use(express.static('./client/build'));
