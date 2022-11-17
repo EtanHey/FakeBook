@@ -12,6 +12,10 @@ const app = express_1.default();
 const port = process.env.PORT || 4001;
 app.use(express_1.default.json());
 app.use(cookie_parser_1.default());
+app.use(express_1.default.static(path_1.default.join(__dirname, 'client / build')));
+app.get('/*', (req, res) => {
+    res.sendFile(path_1.default.join(__dirname, '/client/public/index.html'));
+});
 mongoose_1.default
     .connect(`${MONGODB_URI}`)
     .then(() => {
@@ -24,6 +28,7 @@ mongoose_1.default
 const userRoutes_1 = __importDefault(require("./server/routes/userRoutes"));
 app.use('/api/users', userRoutes_1.default);
 const postsRoutes_1 = __importDefault(require("./server/routes/postsRoutes"));
+const path_1 = __importDefault(require("path"));
 app.use('/api/posts', postsRoutes_1.default);
 app.use(express_1.default.static('./client/build'));
 app.use('/*', express_1.default.static('./client/build'));
